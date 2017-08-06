@@ -36,6 +36,32 @@ class ZttpTest extends TestCase
     }
 
     /** @test */
+    function query_parameters_in_urls_are_respected_with_special_characters()
+    {
+        $response = Zttp::get($this->url('/get?api.version=1'));
+
+        $this->assertArraySubset([
+            'query' => [
+                'api.version' => '1',
+            ]
+        ], $response->json());
+    }
+
+    /** @test */
+    function query_parameters_as_an_argument_are_respected_with_special_characters()
+    {
+        $response = Zttp::get($this->url('/get'), [
+            'api.version' => '1'
+        ]);
+
+        $this->assertArraySubset([
+            'query' => [
+                'api.version' => '1',
+            ]
+        ], $response->json());
+    }
+
+    /** @test */
     function query_parameters_in_urls_are_respected()
     {
         $response = Zttp::get($this->url('/get?foo=bar&baz=qux'));

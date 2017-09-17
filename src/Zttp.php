@@ -17,7 +17,7 @@ class PendingZttpRequest
         $this->beforeSendingCallbacks = collect();
         $this->bodyFormat = 'json';
         $this->options = [
-            'http_errors' => false,
+            'http_errors' => false
         ];
     }
 
@@ -101,6 +101,13 @@ class PendingZttpRequest
                 'auth' => [$username, $password, 'digest'],
             ]);
         });
+    }
+
+    function timeout($seconds)
+    {
+        $this->options['timeout'] = $seconds;
+
+        return $this;
     }
 
     function beforeSending($callback)
